@@ -9,6 +9,7 @@ gem 'listen'
 gem 'dotenv-rails'
 gem 'devise'
 gem 'httparty'
+gem 'rb-readline'
 group :development, :test do
   gem 'capybara'
   gem 'factory_girl_rails'
