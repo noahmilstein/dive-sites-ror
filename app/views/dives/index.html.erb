@@ -1,0 +1,21 @@
+<div>
+  <ul>
+    <% @dives.each do |dive| %>
+      <li>
+        <h3>
+          <%= Divesite.where(id: dive.divesite_id)[0].name %>
+        </h3>
+        <p>Date</p>
+        <p>Time</p>
+        <p>Air Temperature</p>
+        <p>Water Temperature</p>
+        <p>Wave Height</p>
+        <p>Wind Speed</p>
+        <p>Wind Direction</p>
+        <p>Tide</p>
+        <p>Weather Description</p>
+        <p>Precipitation</p>
+      </li>
+    <% end %>
+  </ul>
+</div>
