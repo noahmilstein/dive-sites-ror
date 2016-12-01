@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161130183419) do
+ActiveRecord::Schema.define(version: 20161201191804) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -18,8 +18,6 @@ ActiveRecord::Schema.define(version: 20161130183419) do
   create_table "dives", force: :cascade do |t|
     t.integer  "user_id",             null: false
     t.integer  "divesite_id",         null: false
-    t.string   "date",                null: false
-    t.string   "time",                null: false
     t.string   "air_temp"
     t.string   "water_temp"
     t.string   "wave_height"
@@ -30,6 +28,7 @@ ActiveRecord::Schema.define(version: 20161130183419) do
     t.string   "precipitation"
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
+    t.datetime "datetime",            null: false
     t.index ["divesite_id"], name: "index_dives_on_divesite_id", using: :btree
     t.index ["user_id"], name: "index_dives_on_user_id", using: :btree
   end

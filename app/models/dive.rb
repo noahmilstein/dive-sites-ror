@@ -2,8 +2,7 @@ class Dive < ActiveRecord::Base
   belongs_to :user
   belongs_to :divesite
 
-  validates :date, presence: true
-  validates :time, presence: true
+  validates :datetime, presence: true
 
   ## pending future validation with active record callbacks
   # validates :air_temp

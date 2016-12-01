@@ -111,4 +111,13 @@ RSpec.configure do |config|
     fill_in "Confirm Password", with: user.password
     click_button 'Sign Up'
   end
+
+  def fill_dive_form
+    visit new_dive_path
+
+    select('Folly Cove', from: 'Site')
+    select('12/25/16', from: 'Date')
+    select('8:00am', from: 'Time')
+    click_button 'Submit'
+  end
 end

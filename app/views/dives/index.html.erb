@@ -1,0 +1,7 @@
+<div>
+  <ul>
+    <% @dives.each do |dive| %>
+      <li><%= Divesite.where(id: dive.divesite_id)[0].name %></li>
+    <% end %>
+  </ul>
+</div>
