@@ -4,6 +4,8 @@ class Dive < ActiveRecord::Base
 
   validates :datetime, presence: true
 
+  DIVESITES = Divesite.all
+
   ## pending future validation with active record callbacks
   # validates :air_temp
   # validates :water_temp

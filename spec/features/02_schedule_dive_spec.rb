@@ -13,8 +13,15 @@ feature 'schedule a dive', %Q{
   So that I can see the weather at that location
 } do
 
+  let!(:user) { FactoryGirl.create(:user) }
+  let!(:divesite) { FactoryGirl.create(:divesite) }
+
+  before :each do
+    sign_in(user)
+  end
+
   scenario 'fill out schedule form' do
-    fill_dive_form
+    fill_dive_form(divesite)
 
     expect(page).to have_content('Date')
     expect(page).to have_content('Time')

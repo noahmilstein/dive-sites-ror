@@ -112,12 +112,17 @@ RSpec.configure do |config|
     click_button 'Sign Up'
   end
 
-  def fill_dive_form
-    visit new_dive_path
+  def sign_in(user)
+    visit new_user_session_path
+    fill_in "Email", with: user.email
+    fill_in "Password", with: user.password
+    click_button "Log in"
+  end
 
-    select('Folly Cove', from: 'Site')
-    select('12/25/16', from: 'Date')
-    select('8:00am', from: 'Time')
-    click_button 'Submit'
+  def fill_dive_form(divesite)
+    visit new_dive_path
+    select(divesite.name, from: 'Site')
+    fill_in "Date", with: "01/01/2016, 08:00"
+    click_button 'Schedule Dive'
   end
 end

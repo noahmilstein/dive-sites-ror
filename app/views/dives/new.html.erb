@@ -1,7 +1,9 @@
 <%= form_for(@dive) do |f| %>
 
+  <%= Dive::DIVESITES[0].name %>
+
   <div class="field">
-    <%= f.label :site_name, "Site" %><br />
+    <%= f.label :divesite_id, "Site" %><br />
     <%= f.collection_select :divesite_id, Divesite.all, :id, :name, :prompt => "Select a Site" %>
   </div>
 
