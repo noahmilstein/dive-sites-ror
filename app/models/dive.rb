@@ -17,7 +17,12 @@ class Dive < ActiveRecord::Base
   # validates :precipitation
 
   def send_reminder?
-    #if there is any change in the dive weather data, return true
+    #if there is any change in this dive weather data, return true
+      # Air Temp:
+      # Water Temp:
+      # Wave Height:
+      # Weather Description:
+      # Precipitation:
   end
 
   def message
