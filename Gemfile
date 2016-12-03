@@ -10,6 +10,8 @@ gem 'dotenv-rails'
 gem 'devise'
 gem 'httparty'
 gem 'rb-readline'
+gem 'twilio-ruby'
+
 group :development, :test do
   gem 'capybara'
   gem 'factory_girl_rails'

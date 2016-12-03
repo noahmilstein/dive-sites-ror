@@ -15,4 +15,12 @@ class Dive < ActiveRecord::Base
   # validates :wind_direction
   # validates :weather_description
   # validates :precipitation
+
+  def send_reminder?
+
+  end
+
+  def message
+
+  end
 end
