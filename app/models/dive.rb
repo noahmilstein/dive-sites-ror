@@ -17,10 +17,22 @@ class Dive < ActiveRecord::Base
   # validates :precipitation
 
   def send_reminder?
-
+    #if there is any change in the dive weather data, return true
   end
 
   def message
+    site = Divesite.where(id: self.divesite_id)[0]
 
+    %Q{
+      DIVE WEATHER UPDATE
+
+      Site: #{site}
+      Date: #{self.datetime}
+      Air Temp: #{self.air_temp}
+      Water Temp: #{self.water_temp}
+      Wave Height: #{self.wave_height}
+      Weather Description: #{self.weather_description}
+      Precipitation: #{self.precipitation}
+    }
   end
 end
