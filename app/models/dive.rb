@@ -77,9 +77,9 @@ class Dive < ActiveRecord::Base
     user = User.where(id: self.user_id)[0]
 
     @client.account.messages.create(
-      from: '+15082834493 ',
-      to: '+15087338306', #user.phone_number
-      body: 'I just sent this from my command line - Alex' #self.message
+      from: '+15082834493',
+      to: "+1#{user.phone_number}",
+      body: self.message
     )
   end
 
