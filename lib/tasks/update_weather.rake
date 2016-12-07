@@ -1,10 +1,10 @@
-# make another weather api call to update dives table
-# task :update_weather do
-#
-# end
+task :update_weather do
+  dives = Dive.all
 
-# Air Temp:
-# Water Temp:
-# Wave Height:
-# Weather Description:
-# Precipitation:
+  dives.each do
+    dive.set_weather
+    if dive.updated_at.to_date == Date.today
+      dive.send_reminder
+    end
+  end
+end
