@@ -18,22 +18,28 @@ class Dive < ActiveRecord::Base
 
   after_create :set_weather
 
+  def date_within_7_days?
+    Time.now.to_datetime + 7 > self.datetime
+  end
+
   def set_weather
     date = self.format_date
     time = self.format_time
     @divesite = Divesite.where(id: self.divesite_id)[0]
     @api_result = HTTParty.get("http://api.worldweatheronline.com/premium/v1/marine.ashx?key=#{ENV['MARINE_WEATHER_API_KEY']}&format=json&q=#{@divesite.latitude},#{@divesite.longitude}")
-    dive_date = @api_result["data"]["weather"].select { |key, value| key["date"] == date }
-    dive_time = dive_date[0]["hourly"].find { |hourly_hash| hourly_hash["time"] == time }
-    self.update_attributes(
-      air_temp: dive_time["tempF"],
-      water_temp: dive_time["waterTemp_F"],
-      wave_height: dive_time["swellHeight_ft"],
-      wind_speed: dive_time["windspeedMiles"],
-      wind_direction: dive_time["winddir16Point"],
-      weather_description: dive_time["weatherDesc"][0]["value"],
-      precipitation: dive_time["precipMM"]
-    )
+    if date_within_7_days?
+      dive_date = @api_result["data"]["weather"].select { |key, value| key["date"] == date }
+      dive_time = dive_date[0]["hourly"].find { |hourly_hash| hourly_hash["time"] == time }
+      self.update_attributes(
+        air_temp: dive_time["tempF"],
+        water_temp: dive_time["waterTemp_F"],
+        wave_height: dive_time["swellHeight_ft"],
+        wind_speed: dive_time["windspeedMiles"],
+        wind_direction: dive_time["winddir16Point"],
+        weather_description: dive_time["weatherDesc"][0]["value"],
+        precipitation: dive_time["precipMM"]
+      )
+    end
   end
 
   def format_date
