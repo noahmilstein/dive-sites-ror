@@ -5,16 +5,14 @@
         <h3>
           <%= Divesite.where(id: dive.divesite_id)[0].name %>
         </h3>
-        <p>Date</p>
-        <p>Time</p>
-        <p>Air Temperature</p>
-        <p>Water Temperature</p>
-        <p>Wave Height</p>
-        <p>Wind Speed</p>
-        <p>Wind Direction</p>
-        <p>Tide</p>
-        <p>Weather Description</p>
-        <p>Precipitation</p>
+        <p>Date: <%= dive.datetime %> </p>
+        <p>Air Temperature: <%= dive.air_temp %> </p>
+        <p>Water Temperature: <%= dive.water_temp %> </p>
+        <p>Wave Height: <%= dive.wave_height %> </p>
+        <p>Wind Speed: <%= dive.wind_speed %> </p>
+        <p>Wind Direction: <%= dive.wind_direction %> </p>
+        <p>Weather Description: <%= dive.weather_description %> </p>
+        <p>Precipitation: <%= dive.precipitation %>mm </p>
       </li>
     <% end %>
   </ul>
