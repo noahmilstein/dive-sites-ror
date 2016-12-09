@@ -1,0 +1,31 @@
+<div class="">
+  <h1>user show page</h1>
+
+  <div class="">
+    <p>
+      Upcoming Dives
+    </p>
+
+    <ul>
+      <% @upcoming_dives.each do |dive| %>
+        <li>
+          <%= link_to Divesite.where(id: dive.divesite_id)[0].name, dive_path(dive) %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+
+  <div class="">
+    <p>
+      Archived Dives
+    </p>
+
+    <ul>
+      <% @archived_dives.each do |dive| %>
+        <li>
+          <%= link_to Divesite.where(id: dive.divesite_id)[0].name, dive_path(dive) %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>

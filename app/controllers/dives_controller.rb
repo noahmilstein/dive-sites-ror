@@ -12,8 +12,6 @@ class DivesController < ApplicationController
   def create
     @dive = Dive.new(new_dive_params)
     @dive.user = current_user
-    # @divesite = Divesite.where(id: @dive.divesite_id)[0]
-    # @api_result = HTTParty.get("http://api.worldweatheronline.com/premium/v1/marine.ashx?key=#{ENV['MARINE_WEATHER_API_KEY']}&format=json&q=#{@divesite.latitude},#{@divesite.longitude}")
 
     if @dive.save
       flash[:notice] = 'Dive scheduled successfully!'
@@ -24,7 +22,8 @@ class DivesController < ApplicationController
     end
   end
 
-  def history
+  def show
+    @dive = Dive.find(params[:id])
   end
 
   private

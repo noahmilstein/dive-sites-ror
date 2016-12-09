@@ -17,7 +17,6 @@ feature 'sign up', %Q{
     expect(page).to have_content("Schedule a Dive")
     expect(page).to have_content("Edit Profile")
     expect(page).to have_content("Home")
-    expect(page).to have_content("Dive History")
   end
 
   scenario "required information is not supplied" do

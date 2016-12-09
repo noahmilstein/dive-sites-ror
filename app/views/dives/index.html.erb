@@ -5,6 +5,9 @@
         <h3>
           <%= Divesite.where(id: dive.divesite_id)[0].name %>
         </h3>
+
+        <%= link_to Divesite.where(id: dive.divesite_id)[0].name, dive_path(dive) %>
+
         <p>Date: <%= dive.datetime %> </p>
         <p>Air Temperature: <%= dive.air_temp %> </p>
         <p>Water Temperature: <%= dive.water_temp %> </p>

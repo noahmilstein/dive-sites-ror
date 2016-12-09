@@ -1,0 +1,16 @@
+<div class="">
+  <ul>
+    <% if @dive.datetime > Date.today %>
+      <li>Dive pending: <a style="color:green"><%= @dive.datetime.strftime("%m/%d/%Y %H:%M") %></a></li>
+    <% else %>
+      <li>Dive transpired at: <a style="color:red"><%= @dive.datetime.strftime("%m/%d/%Y %H:%M") %></a></li>
+    <% end %>
+    <li>Air temp: <%= @dive.air_temp %> F</li>
+    <li>Water temp: <%= @dive.water_temp %> F</li>
+    <li>Wave height: <%= @dive.wave_height %></li>
+    <li>Wind speed: <%= @dive.wind_speed %></li>
+    <li>Wind direction: <%= @dive.wind_direction %></li>
+    <li>Weather description: <%= @dive.weather_description %></li>
+    <li>Preciptitation: <%= @dive.precipitation %></li>
+  </ul>
+</div>
