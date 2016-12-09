@@ -10,25 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161201191804) do
+ActiveRecord::Schema.define(version: 20161209215233) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "dives", force: :cascade do |t|
-    t.integer  "user_id",             null: false
-    t.integer  "divesite_id",         null: false
+    t.integer  "user_id",                             null: false
+    t.integer  "divesite_id",                         null: false
     t.string   "air_temp"
     t.string   "water_temp"
     t.string   "wave_height"
     t.string   "wind_speed"
-    t.string   "tide"
     t.string   "wind_direction"
     t.string   "weather_description"
     t.string   "precipitation"
-    t.datetime "created_at",          null: false
-    t.datetime "updated_at",          null: false
-    t.datetime "datetime",            null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.datetime "datetime",                            null: false
+    t.boolean  "archive",             default: false, null: false
     t.index ["divesite_id"], name: "index_dives_on_divesite_id", using: :btree
     t.index ["user_id"], name: "index_dives_on_user_id", using: :btree
   end

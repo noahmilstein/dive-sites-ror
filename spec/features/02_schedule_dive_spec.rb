@@ -20,7 +20,7 @@ feature 'schedule a dive', %Q{
     sign_in(user)
   end
 
-  scenario 'fill out schedule form' do
+  xscenario 'fill out schedule form' do
     fill_dive_form(divesite)
 
     expect(page).to have_content('Date')
@@ -36,7 +36,7 @@ feature 'schedule a dive', %Q{
 
   end
 
-  scenario '' do
+  xscenario '' do
 
   end
 
