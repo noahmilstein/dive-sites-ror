@@ -16,22 +16,40 @@ class Dive < ActiveRecord::Base
 
   after_create :set_weather
 
+  def date_within_7_days?
+    Time.now.to_datetime + 7 > self.datetime
+  end
+
   def set_weather
     date = self.format_date
     time = self.format_time
     @divesite = Divesite.where(id: self.divesite_id)[0]
     @api_result = HTTParty.get("http://api.worldweatheronline.com/premium/v1/marine.ashx?key=#{ENV['MARINE_WEATHER_API_KEY']}&format=json&q=#{@divesite.latitude},#{@divesite.longitude}")
-    dive_date = @api_result["data"]["weather"].select { |key, value| key["date"] == date }
-    dive_time = dive_date[0]["hourly"].find { |hourly_hash| hourly_hash["time"] == time }
-    self.update_attributes(
-      air_temp: dive_time["tempF"],
-      water_temp: dive_time["waterTemp_F"],
-      wave_height: dive_time["swellHeight_ft"],
-      wind_speed: dive_time["windspeedMiles"],
-      wind_direction: dive_time["winddir16Point"],
-      weather_description: dive_time["weatherDesc"][0]["value"],
-      precipitation: dive_time["precipMM"]
-    )
+
+    if date_within_7_days?
+      dive_date = @api_result["data"]["weather"].select { |key, value| key["date"] == date }
+      # there is a bug here somewhere
+      dive_time = dive_date[0]["hourly"].find { |hourly_hash| hourly_hash["time"] == time }
+
+      if self.air_temp != dive_time["tempF"] ||
+        self.water_temp != dive_time["waterTemp_F"] ||
+        self.wave_height != dive_time["swellHeight_ft"] ||
+        self.wind_speed != dive_time["windspeedMiles"] ||
+        self.wind_direction != dive_time["winwinddir16PointdspeedMiles"] ||
+        self.weather_description != dive_time["winddir16Point"] ||
+        self.precipitation != dive_time["precipMM"]
+
+        self.update_attributes(
+          air_temp: dive_time["tempF"],
+          water_temp: dive_time["waterTemp_F"],
+          wave_height: dive_time["swellHeight_ft"],
+          wind_speed: dive_time["windspeedMiles"],
+          wind_direction: dive_time["winddir16Point"],
+          weather_description: dive_time["weatherDesc"][0]["value"],
+          precipitation: dive_time["precipMM"]
+        )
+      end
+    end
   end
 
   def format_date
@@ -50,13 +68,20 @@ class Dive < ActiveRecord::Base
     result = (quotient * 300).to_s
   end
 
-  def send_reminder?
-    #if there is any change in this dive weather data, return true
-      # Air Temp:
-      # Water Temp:
-      # Wave Height:
-      # Weather Description:
-      # Precipitation:
+  def send_reminder
+    account_sid = ENV['TWILIO_ACCOUNT_SID']
+    auth_token = ENV['TWILIO_AUTH_TOKEN']
+
+    # set up a client to talk to the Twilio REST API
+    @client = Twilio::REST::Client.new(account_sid, auth_token)
+
+    user = User.where(id: self.user_id)[0]
+
+    @client.account.messages.create(
+      from: '+15082834493',
+      to: "+1#{user.phone_number}",
+      body: self.message
+    )
   end
 
   def message
