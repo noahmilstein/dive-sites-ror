@@ -27,9 +27,12 @@ class Dive < ActiveRecord::Base
     time = self.format_time
     @divesite = Divesite.where(id: self.divesite_id)[0]
     @api_result = HTTParty.get("http://api.worldweatheronline.com/premium/v1/marine.ashx?key=#{ENV['MARINE_WEATHER_API_KEY']}&format=json&q=#{@divesite.latitude},#{@divesite.longitude}")
+
     if date_within_7_days?
       dive_date = @api_result["data"]["weather"].select { |key, value| key["date"] == date }
+      # there is a bug here somewhere
       dive_time = dive_date[0]["hourly"].find { |hourly_hash| hourly_hash["time"] == time }
+
       if self.air_temp != dive_time["tempF"] ||
         self.water_temp != dive_time["waterTemp_F"] ||
         self.wave_height != dive_time["swellHeight_ft"] ||
