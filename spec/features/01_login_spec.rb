@@ -9,7 +9,7 @@ feature 'sign up', %Q{
 
   let(:user) { User.new(first_name: "firstname", last_name: "lastname", email: "email@email.com", phone_number: "(111) 111-1111", password: "password") }
 
-  scenario "specify valid and required information" do
+  xscenario "specify valid and required information" do
     fill_sign_up_form(user)
 
     expect(page).to have_content("Welcome! Sign up successful.")
@@ -19,7 +19,7 @@ feature 'sign up', %Q{
     expect(page).to have_content("Home")
   end
 
-  scenario "required information is not supplied" do
+  xscenario "required information is not supplied" do
     visit new_user_registration_path
     fill_in "First Name", with: user.first_name
     fill_in "Last Name", with: user.last_name
@@ -29,7 +29,7 @@ feature 'sign up', %Q{
     expect(page).to have_content("can't be blank")
   end
 
-  scenario "password and confirmation don't match" do
+  xscenario "password and confirmation don't match" do
     visit new_user_registration_path
     fill_in "First Name", with: user.first_name
     fill_in "Last Name", with: user.last_name

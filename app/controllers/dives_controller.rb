@@ -7,6 +7,7 @@ class DivesController < ApplicationController
 
   def new
     @dive = Dive.new
+    @divesites = Divesite.all
   end
 
   def create
