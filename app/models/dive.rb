@@ -17,7 +17,7 @@ class Dive < ActiveRecord::Base
   after_create :set_weather
 
   def date_within_7_days?
-    Time.now.to_datetime + 7 > self.datetime
+    self.datetime > Time.now.to_datetime && Time.now.to_datetime + 7 > self.datetime
   end
 
   def set_weather
@@ -28,7 +28,6 @@ class Dive < ActiveRecord::Base
 
     if date_within_7_days?
       dive_date = @api_result["data"]["weather"].select { |key, value| key["date"] == date }
-      # there is a bug here somewhere
       dive_time = dive_date[0]["hourly"].find { |hourly_hash| hourly_hash["time"] == time }
 
       if self.air_temp != dive_time["tempF"] ||

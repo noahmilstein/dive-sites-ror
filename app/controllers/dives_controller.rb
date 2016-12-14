@@ -7,7 +7,7 @@ class DivesController < ApplicationController
 
   def new
     @dive = Dive.new
-    @divesites = Divesite.all
+    @divesites = Divesite.all.order(:name)
   end
 
   def create
