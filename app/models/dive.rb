@@ -48,6 +48,8 @@ class Dive < ActiveRecord::Base
           precipitation: dive_time["precipMM"]
         )
       end
+    elsif self.datetime < Time.now.to_datetime
+      self.update_attribute(:archive, true)
     end
   end
 
