@@ -11,6 +11,7 @@ gem 'devise'
 gem 'httparty'
 gem 'rb-readline'
 gem 'twilio-ruby'
+gem 'jquery-ui-rails'
 group :development, :test do
   gem 'capybara'
   gem 'factory_girl_rails'
