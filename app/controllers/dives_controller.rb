@@ -2,7 +2,7 @@ class DivesController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @dives = Dive.where(user: current_user)
+    @dives = Dive.where(user: current_user, archive: false)
   end
 
   def new

@@ -3,16 +3,16 @@ class UsersController < ApplicationController
 
   def show
     @user = current_user
-    @dives = @user.dives
+    dives = @user.dives
 
     @archived_dives = []
     @upcoming_dives = []
 
-    @dives.each do |dive|
-      if dive.datetime > Date.today
-        @upcoming_dives << dive
-      else
+    dives.each do |dive|
+      if dive.archive
         @archived_dives << dive
+      else
+        @upcoming_dives << dive
       end
     end
   end
