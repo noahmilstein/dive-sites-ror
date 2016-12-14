@@ -17,7 +17,7 @@ class Dive < ActiveRecord::Base
   after_create :set_weather
 
   def date_within_7_days?
-    Time.now.to_datetime + 7 > self.datetime
+    self.datetime > Time.now.to_datetime && Time.now.to_datetime + 7 > self.datetime
   end
 
   def set_weather
@@ -28,7 +28,6 @@ class Dive < ActiveRecord::Base
 
     if date_within_7_days?
       dive_date = @api_result["data"]["weather"].select { |key, value| key["date"] == date }
-      # there is a bug here somewhere
       dive_time = dive_date[0]["hourly"].find { |hourly_hash| hourly_hash["time"] == time }
 
       if self.air_temp != dive_time["tempF"] ||
@@ -87,16 +86,7 @@ class Dive < ActiveRecord::Base
   def message
     site = Divesite.where(id: self.divesite_id)[0]
 
-    %Q{
-      DIVE WEATHER UPDATE
 
-      Site: #{site.name}
-      Date: #{self.datetime}
-      Air Temp: #{self.air_temp}
-      Water Temp: #{self.water_temp}
-      Wave Height: #{self.wave_height}
-      Weather Description: #{self.weather_description}
-      Precipitation: #{self.precipitation}
-    }
+    "DIVE WEATHER UPDATE\n\nSite: #{site.name}\nDate: #{self.datetime}\nAir Temp: #{self.air_temp}\nWater Temp: #{self.water_temp}\nWave Height: #{self.wave_height}\nWeather Description: #{self.weather_description}\nPrecipitation: #{self.precipitation}"
   end
 end
