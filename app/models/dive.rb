@@ -2,6 +2,8 @@ class Dive < ActiveRecord::Base
   belongs_to :user
   belongs_to :divesite
 
+  belongs_to :location
+
   validates :datetime, presence: true
 
   ## pending future validation with active record callbacks

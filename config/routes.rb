@@ -6,4 +6,5 @@ Rails.application.routes.draw do
   resources :dives, only: [:index, :new, :create, :show]
   resources :users, only: [:edit, :show]
   resources :divesites, only: [:index]
+  resources :locations, only: [:new, :create]
 end

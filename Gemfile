@@ -12,6 +12,7 @@ gem 'httparty'
 gem 'rb-readline'
 gem 'twilio-ruby'
 gem 'jquery-ui-rails'
+gem 'geocoder'
 group :development, :test do
   gem 'capybara'
   gem 'factory_girl_rails'
