@@ -1,0 +1,12 @@
+<%= form_for(@location) do |f| %>
+
+  <div class="field">
+    <%= f.label :name, "Location" %><br />
+    <%= f.text_field :name %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "Find sites near this location" %>
+  </div>
+
+<% end %>

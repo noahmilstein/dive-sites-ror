@@ -8,8 +8,7 @@ class LocationsController < ApplicationController
   def create
     @location = Location.new(location_params)
     if @location.save
-      @location.id = params[:location_id]
-      redirect_to new_dive_path
+      redirect_to controller: 'dives', action: 'new', location_id: @location.id
     else
       render :new
     end

@@ -1,7 +1,5 @@
 <%= form_for(@dive) do |f| %>
 
-  <%= render "_location" %>
-
   <div class="field">
     <%= f.label :divesite_id, "Site" %><br />
     <%= f.collection_select :divesite_id, @divesites, :id, :name, :prompt => "Select a Site" %>
