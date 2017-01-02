@@ -5,4 +5,10 @@ Rails.application.routes.draw do
 
   resources :dives, only: [:index, :new, :create, :show]
   resources :users, only: [:edit, :show]
+
+  namespace :api do
+    namespace :v1 do
+      resources :divesites, only: [:index]
+    end
+  end
 end
