@@ -6,7 +6,8 @@ class App extends React.Component {
   this.state = {
     divesites: [],
     lat: 0.0,
-    lng: 0.0
+    lng: 0.0,
+    radius: 0
   };
 
   // this.handleValueChange = this.handleValueChange.bind(this);
@@ -18,7 +19,6 @@ class App extends React.Component {
     this.fetchDivesites()
   }
 
-  // // populates divesites dropdown menu
   fetchDivesites() {
     fetch('/api/v1/divesites.json')
       .then(response => response.json())
@@ -33,10 +33,18 @@ class App extends React.Component {
   //   this.setState({radius: event.target.value});
   // }
 
+  convertToLatLng(lat, lng) {
+    return new google.maps.LatLng(lat, lng)
+  }
+
   createSiteList() {
+    const centerPoint = convertToLatLng(this.state.lat, this.state.lng)
     const sites = this.state.divesites.filter(site => {
-      
-      return site.name.include()
+      const lat = parseInt(site.lat);
+      const lng = parseInt(site.lng);
+      const siteCoordinates = convertToLatLng(lat, lng);
+
+      return computeDistanceBetween(centerPoint, siteCoordinates) <= this.state.radius;
     })
     // sites.forEach((site) => {
     //   sites.push(<li>{site.name}</li>)
@@ -54,7 +62,8 @@ class App extends React.Component {
       .then(data => {
         this.setState({
           lat: data.results[0].geometry.location.lat,
-          lng: data.results[0].geometry.location.lng
+          lng: data.results[0].geometry.location.lng,
+          radius: radius
         })
       })
       .then(createSiteList)
