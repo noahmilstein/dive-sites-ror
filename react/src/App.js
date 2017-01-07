@@ -9,9 +9,6 @@ class App extends React.Component {
     lng: 0.0,
     radius: 0
   };
-
-  // this.handleValueChange = this.handleValueChange.bind(this);
-  // this.handleRadiusChange = this.handleRadiusChange.bind(this);
   this.handleSubmit = this.handleSubmit.bind(this);
 }
 
@@ -25,14 +22,6 @@ class App extends React.Component {
       .then(data => this.setState({divesites: data}))
   }
 
-  // handleValueChange(event) {
-  //   this.setState({value: event.target.value});
-  // }
-  //
-  // handleRadiusChange(event) {
-  //   this.setState({radius: event.target.value});
-  // }
-
   convertToLatLng(lat, lng) {
     return new google.maps.LatLng(lat, lng)
   }
@@ -42,15 +31,14 @@ class App extends React.Component {
     const centerPoint = convertToLatLng(this.state.lat, this.state.lng);
 
     const sites = this.state.divesites.filter(site => {
-      const lat = parseInt(site.lat);
-      const lng = parseInt(site.lng);
-      const siteCoordinates = convertToLatLng(lat, lng);
-
+      const siteCoordinates = convertToLatLng(parseInt(site.lat), parseInt(site.lng));
       return computeDistanceBetween(centerPoint, siteCoordinates) <= this.state.radius;
     })
+    // create jsx refined list
     sites.map(site => {
       return <li>{site.name}</li>
     })
+
     console.log(sites);
     return sites;
   }
@@ -70,14 +58,6 @@ class App extends React.Component {
       })
       .then(createSiteList)
     })
-    //   const updatedSites = [];
-    //   // google gives us centerpoint, we have radius
-    //   // create LatLng objects of divesites
-    //   // use computeDistanceBetween to create new array of divesites
-    //   // with only those within the specified radius
-    //   // set new divesites state
-    // });
-    // this.fillDropDown()
   }
 
   render() {
