@@ -37,8 +37,10 @@ class App extends React.Component {
     return new google.maps.LatLng(lat, lng)
   }
 
+  // filters list by location and radius, creates jsx for refined list
   createSiteList() {
-    const centerPoint = convertToLatLng(this.state.lat, this.state.lng)
+    const centerPoint = convertToLatLng(this.state.lat, this.state.lng);
+
     const sites = this.state.divesites.filter(site => {
       const lat = parseInt(site.lat);
       const lng = parseInt(site.lng);
@@ -46,9 +48,9 @@ class App extends React.Component {
 
       return computeDistanceBetween(centerPoint, siteCoordinates) <= this.state.radius;
     })
-    // sites.forEach((site) => {
-    //   sites.push(<li>{site.name}</li>)
-    // })
+    sites.map(site => {
+      return <li>{site.name}</li>
+    })
     console.log(sites);
     return sites;
   }
@@ -57,7 +59,7 @@ class App extends React.Component {
     const location = document.querySelector('.location').value;
     const radius = document.querySelector('.radius').value;
 
-    fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${location}&key=AIzaSyCOq298WuE1r_3LH7fwCRW2gJGhohj2qPQ`)
+    fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${location}&key=${GOOGLE_GEOCODE_API_KEY}`)
       .then(response => response.json())
       .then(data => {
         this.setState({
