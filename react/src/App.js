@@ -42,9 +42,8 @@ class App extends React.Component {
   fillDropdown() {
     let options = [];
     this.state.divesites.forEach((site) => {
-      options.push(`<option>${site.name}</option>`)
+      options.push(<option>{site.name}</option>)
     })
-    options = options.join('');
     console.log(options);
     return options;
   }
