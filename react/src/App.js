@@ -12,6 +12,7 @@ class App extends React.Component {
   this.handleSubmit = this.handleSubmit.bind(this);
   this.setState = this.setState.bind(this);
   this.createSiteList = this.createSiteList.bind(this);
+  this.convertToLatLng = this.convertToLatLng.bind(this);
 }
 
   componentDidMount() {
@@ -33,25 +34,17 @@ class App extends React.Component {
   createSiteList() {
     const centerPoint = this.convertToLatLng(this.state.lat, this.state.lng);
     const radius = this.state.radius;
+    // computeDistanceBetween is not working
+
+    // const _this = this;
     const sites = this.state.divesites.filter(site => {
       const siteCoordinates = this.convertToLatLng(parseFloat(site.latitude), parseFloat(site.longitude));
-      // console.log(parseFloat(radius * 1000));
-      // console.log(this);
-      // console.log(radius);
-      // console.log(this.state.radius);
-
       return google.maps.geometry.spherical.computeDistanceBetween(centerPoint, siteCoordinates) <= parseFloat(radius * 1000);
-    })
-    // console.log(sites)
-    sites.map(site => {
-      return <li>{site.name}</li>
+      // Uncaught TypeError: Cannot read property 'convertToLatLng' of undefined
+      // all sites return false. Why?
+      // return google.maps.geometry.spherical.computeDistanceBetween(centerPoint, this.convertToLatLng(parseFloat(site.latitude), parseFloat(site.longitude))) <= parseFloat(radius * 1000);
     })
 
-    // jsxify(sites);
-  }
-
-  jsxify(sites) {
-    // create jsx refined list
     sites.map(site => {
       return <li>{site.name}</li>
     })
@@ -60,56 +53,24 @@ class App extends React.Component {
   handleSubmit() {
     const location = document.querySelector('.location').value;
     let radius = document.querySelector('.radius').value;
-    let lat, lng;
 
     fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${location}&key=AIzaSyCOq298WuE1r_3LH7fwCRW2gJGhohj2qPQ`)
       .then(response => response.json())
       .then(data => {
-        console.log(data)
-        debugger;
-        // this is currently the problem
-        lat = data.results[0].geometry.location.lat;
-        lng = data.results[0].geometry.location.lng;
-        // this.setState({
-        //   lat: data.results[0].geometry.location.lat,
-        //   lng: data.results[0].geometry.location.lng,
-        //   radius: radius
-        // })
+        this.setState({
+          lat: data.results[0].geometry.location.lat,
+          lng: data.results[0].geometry.location.lng,
+          radius: radius
+        }, function() {
+          this.createSiteList()
+        })
       })
-      // .then(this.createSiteList())
-      this.setState({
-        lat: lat,
-        lng: lng,
-        radius: radius
-      })
-      // console.log(this)
-      // debugger;
-    this.createSiteList()
-
-    // const location = document.querySelector('.location').value;
-    // let radius = document.querySelector('.radius').value;
-    //
-    // fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${location}&key=AIzaSyCOq298WuE1r_3LH7fwCRW2gJGhohj2qPQ`)
-    //   .then(response => response.json())
-    //   .then(data => {
-    //     // this is currently the problem
-    //     this.setState({
-    //       lat: data.results[0].geometry.location.lat,
-    //       lng: data.results[0].geometry.location.lng,
-    //       radius: radius
-    //     })
-    //   })
-    //   // .then(this.createSiteList())
-    // this.createSiteList()
   }
-
+  
+  // state is being set after the handleSubmit fully executes,
+  // so currently we cannot operate on the changed state within the handleSubmit function
   render() {
     let sites;
-    // if (this.state.divesites.length > 0) {
-    //   sites = this.state.divesites;
-    // } else {
-    //   sites = '';
-    // }
     return (
       <div>
         <form onSubmit={this.handleSubmit}>
