@@ -7,7 +7,9 @@ class App extends React.Component {
     divesites: [],
     lat: null,
     lng: null,
-    radius: null
+    radius: null,
+    reducedSites: [],
+    selectedSite: ''
   };
   this.handleSubmit = this.handleSubmit.bind(this);
   this.setState = this.setState.bind(this);
@@ -16,13 +18,13 @@ class App extends React.Component {
 }
 
   componentDidMount() {
-    this.fetchDivesites()
+    this.fetchDivesites();
   }
 
   fetchDivesites() {
     fetch('/api/v1/divesites.json')
       .then(response => response.json())
-      .then(data => this.setState({divesites: data}))
+      .then(data => this.setState({divesites: data}));
       // catch errors
   }
 
@@ -34,23 +36,29 @@ class App extends React.Component {
   createSiteList() {
     const centerPoint = this.convertToLatLng(this.state.lat, this.state.lng);
     const radius = this.state.radius;
-    // computeDistanceBetween is not working
 
-    // const _this = this;
     const sites = this.state.divesites.filter(site => {
       const siteCoordinates = this.convertToLatLng(parseFloat(site.latitude), parseFloat(site.longitude));
       return google.maps.geometry.spherical.computeDistanceBetween(centerPoint, siteCoordinates) <= parseFloat(radius * 1000);
-      // Uncaught TypeError: Cannot read property 'convertToLatLng' of undefined
-      // all sites return false. Why?
-      // return google.maps.geometry.spherical.computeDistanceBetween(centerPoint, this.convertToLatLng(parseFloat(site.latitude), parseFloat(site.longitude))) <= parseFloat(radius * 1000);
     })
 
-    sites.map(site => {
-      return <li>{site.name}</li>
+    const jsxSites = sites.map(site => {
+      // each li is given an event listener that needs to be bound because it is called inside of an event
+      return <li onClick={this.selectedSite.bind(this)} key={site.id}>{site.name}</li>
     })
+
+    this.setState({ reducedSites: jsxSites })
   }
 
-  handleSubmit() {
+  selectedSite(e) {
+    e.preventDefault()
+    this.setState({ selectedSite: e.target.innerText }
+    e.target.style.color = 'red'
+    // queryselectorAll li's, change classes and or css
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
     const location = document.querySelector('.location').value;
     let radius = document.querySelector('.radius').value;
 
@@ -64,13 +72,28 @@ class App extends React.Component {
         }, function() {
           this.createSiteList()
         })
-      })
+      });
   }
-  
-  // state is being set after the handleSubmit fully executes,
-  // so currently we cannot operate on the changed state within the handleSubmit function
+
+  setCSS() {
+    // change css color property of selectedSite to red
+    // change all other li css to black
+    // then call this function inside the render function
+
+    // OR
+
+    // inside selectedSite, change class to 'selected' instead of changing CSS
+    // ^this is probably better
+    this.state.reducedSites.forEach(site => {
+      if (site.name === this.state.selectedSite) {
+        //
+      }
+    })
+  }
+
   render() {
-    let sites;
+
+    let sites = this.state.reducedSites;
     return (
       <div>
         <form onSubmit={this.handleSubmit}>
