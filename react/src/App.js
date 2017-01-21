@@ -9,7 +9,8 @@ class App extends React.Component {
     lng: null,
     radius: null,
     reducedSites: [],
-    selectedSite: ''
+    selectedSite: '',
+    diveSchedule: ''
   };
   this.handleLocationSubmit = this.handleLocationSubmit.bind(this);
   this.setState = this.setState.bind(this);
@@ -18,6 +19,11 @@ class App extends React.Component {
   this.setCSS = this.setCSS.bind(this);
   this.handleFormSubmit = this.handleFormSubmit.bind(this);
 }
+// use refs instead of query selector
+// use controlled components for forms
+  // https://facebook.github.io/react/docs/forms.html#controlled-components
+// use hidden field instead of multi part form
+// break up dives controller into multiple api controllres, 1 api end point per crud function
 
   componentDidMount() {
     this.fetchDivesites();
@@ -70,7 +76,20 @@ class App extends React.Component {
   }
 
   handleFormSubmit(e) {
-
+    console.log(e)
+    debugger
+    // this.setState({ diveSchedule: e})
+    // console.log(e)
+    // this.setState({ diveSchedule: e })
+    // debugger
+    // $.ajax({
+    //   method: 'POST',
+    //   url: '/api/v1/create_dives',
+    //   data: {},
+    //   success: (response) => {
+    //
+    //   }
+    // })
   }
 
   handleLocationSubmit(e) {
@@ -95,6 +114,7 @@ class App extends React.Component {
     let datePickerForm;
     let sites = this.state.reducedSites;
 
+    // refactor to hidden
     if (this.state.selectedSite !== '') {
       datePickerForm =  <form onSubmit={this.handleFormSubmit}>
         <input type="datetime-local" name="diveTime" />
