@@ -11,10 +11,12 @@ class App extends React.Component {
     reducedSites: [],
     selectedSite: ''
   };
-  this.handleSubmit = this.handleSubmit.bind(this);
+  this.handleLocationSubmit = this.handleLocationSubmit.bind(this);
   this.setState = this.setState.bind(this);
   this.createSiteList = this.createSiteList.bind(this);
   this.convertToLatLng = this.convertToLatLng.bind(this);
+  this.setCSS = this.setCSS.bind(this);
+  this.handleFormSubmit = this.handleFormSubmit.bind(this);
 }
 
   componentDidMount() {
@@ -44,7 +46,7 @@ class App extends React.Component {
 
     const jsxSites = sites.map(site => {
       // each li is given an event listener that needs to be bound because it is called inside of an event
-      return <li onClick={this.selectedSite.bind(this)} key={site.id}>{site.name}</li>
+      return <li className='result' onClick={this.selectedSite.bind(this)} key={site.id}>{site.name}</li>
     })
 
     this.setState({ reducedSites: jsxSites })
@@ -52,12 +54,26 @@ class App extends React.Component {
 
   selectedSite(e) {
     e.preventDefault()
-    this.setState({ selectedSite: e.target.innerText }
-    e.target.style.color = 'red'
-    // queryselectorAll li's, change classes and or css
+    this.setState({ selectedSite: e.target.innerText }, this.setCSS)
   }
 
-  handleSubmit(e) {
+  setCSS() {
+    const queryResults = document.querySelectorAll('.result')
+    const site = this.state.selectedSite
+    queryResults.forEach(result => {
+      if (result.innerText === site) {
+        result.classList.add('selectedSite')
+      } else {
+        result.classList.remove('selectedSite')
+      }
+    })
+  }
+
+  handleFormSubmit(e) {
+
+  }
+
+  handleLocationSubmit(e) {
     e.preventDefault();
     const location = document.querySelector('.location').value;
     let radius = document.querySelector('.radius').value;
@@ -75,28 +91,20 @@ class App extends React.Component {
       });
   }
 
-  setCSS() {
-    // change css color property of selectedSite to red
-    // change all other li css to black
-    // then call this function inside the render function
-
-    // OR
-
-    // inside selectedSite, change class to 'selected' instead of changing CSS
-    // ^this is probably better
-    this.state.reducedSites.forEach(site => {
-      if (site.name === this.state.selectedSite) {
-        //
-      }
-    })
-  }
-
   render() {
-
+    let datePickerForm;
     let sites = this.state.reducedSites;
+
+    if (this.state.selectedSite !== '') {
+      datePickerForm =  <form onSubmit={this.handleFormSubmit}>
+        <input type="datetime-local" name="diveTime" />
+        <input type="submit" value="Schedule Dive" />
+      </form>
+    }
+
     return (
       <div>
-        <form onSubmit={this.handleSubmit}>
+        <form onSubmit={this.handleLocationSubmit}>
           <label>
             Location:
             <input className="location" type="text" />
@@ -110,6 +118,7 @@ class App extends React.Component {
         <ul>
           {sites}
         </ul>
+        {datePickerForm}
       </div>
     );
   }
