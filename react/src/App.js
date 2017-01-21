@@ -2,23 +2,23 @@ import React from 'react';
 
 class App extends React.Component {
   constructor(props) {
-  super(props);
-  this.state = {
-    divesites: [],
-    lat: null,
-    lng: null,
-    radius: null,
-    reducedSites: [],
-    selectedSite: '',
-    diveSchedule: ''
-  };
-  this.handleLocationSubmit = this.handleLocationSubmit.bind(this);
-  this.setState = this.setState.bind(this);
-  this.createSiteList = this.createSiteList.bind(this);
-  this.convertToLatLng = this.convertToLatLng.bind(this);
-  this.setCSS = this.setCSS.bind(this);
-  this.handleFormSubmit = this.handleFormSubmit.bind(this);
-}
+    super(props);
+    this.state = {
+      divesites: [],
+      lat: null,
+      lng: null,
+      radius: null,
+      reducedSites: [],
+      selectedSite: '',
+      diveSchedule: ''
+    };
+    this.handleLocationSubmit = this.handleLocationSubmit.bind(this);
+    this.setState = this.setState.bind(this);
+    this.createSiteList = this.createSiteList.bind(this);
+    this.convertToLatLng = this.convertToLatLng.bind(this);
+    this.setCSS = this.setCSS.bind(this);
+    this.handleFormSubmit = this.handleFormSubmit.bind(this);
+  }
 // use refs instead of query selector
 // use controlled components for forms
   // https://facebook.github.io/react/docs/forms.html#controlled-components
@@ -111,6 +111,7 @@ class App extends React.Component {
   }
 
   render() {
+
     let datePickerForm;
     let sites = this.state.reducedSites;
 
