@@ -11,12 +11,15 @@ class DivesController < ApplicationController
   end
 
   def create
-    @dive = Dive.new(new_dive_params)
-    @dive.user = current_user
+    user_id = current_user.id
+    divesite_id = Divesite.where(name: params[:site])[0].id
+    datetime = params[:date].to_datetime
+
+    @dive = Dive.new(divesite_id: divesite_id, user_id: user_id, datetime: datetime)
 
     if @dive.save
       flash[:notice] = 'Dive scheduled successfully!'
-      redirect_to dives_path
+      redirect_to @dive
     else
       flash[:notice] = @dive.errors.full_messages.join(', ')
       render :new

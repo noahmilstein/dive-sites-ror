@@ -76,20 +76,20 @@ class App extends React.Component {
   }
 
   handleFormSubmit(e) {
-    console.log(e)
-    debugger
-    // this.setState({ diveSchedule: e})
-    // console.log(e)
-    // this.setState({ diveSchedule: e })
-    // debugger
-    // $.ajax({
-    //   method: 'POST',
-    //   url: '/api/v1/create_dives',
-    //   data: {},
-    //   success: (response) => {
-    //
-    //   }
-    // })
+    // refactor into a fetch POST promise LATER
+    e.preventDefault();
+    const site = this.state.selectedSite
+    const date = document.querySelector("input.datetime").value
+    const data = {
+      site: site,
+      date: date
+    }
+    $.ajax({
+      method: 'POST',
+      url: '/dives',
+      // contentType: 'application/json',
+      data: data
+    })
   }
 
   handleLocationSubmit(e) {
@@ -118,7 +118,7 @@ class App extends React.Component {
     // refactor to hidden
     if (this.state.selectedSite !== '') {
       datePickerForm =  <form onSubmit={this.handleFormSubmit}>
-        <input type="datetime-local" name="diveTime" />
+        <input className="datetime" type="datetime-local" name="diveTime" />
         <input type="submit" value="Schedule Dive" />
       </form>
     }
