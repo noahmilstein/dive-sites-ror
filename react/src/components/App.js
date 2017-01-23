@@ -1,4 +1,7 @@
 import React from 'react';
+import LocationForm from './LocationForm';
+import ResultsList from './ResultsList';
+import DatePickerForm from './DatePickerForm';
 
 class App extends React.Component {
   constructor(props) {
@@ -18,6 +21,7 @@ class App extends React.Component {
     this.convertToLatLng = this.convertToLatLng.bind(this);
     this.setCSS = this.setCSS.bind(this);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
+    this.selectedSite = this.selectedSite.bind(this);
   }
 // use refs instead of query selector
 // use controlled components for forms
@@ -50,12 +54,7 @@ class App extends React.Component {
       return google.maps.geometry.spherical.computeDistanceBetween(centerPoint, siteCoordinates) <= parseFloat(radius * 1000);
     })
 
-    const jsxSites = sites.map(site => {
-      // each li is given an event listener that needs to be bound because it is called inside of an event
-      return <li className='result' onClick={this.selectedSite.bind(this)} key={site.id}>{site.name}</li>
-    })
-
-    this.setState({ reducedSites: jsxSites })
+    this.setState({ reducedSites: sites })
   }
 
   selectedSite(e) {
@@ -93,6 +92,11 @@ class App extends React.Component {
 
   handleLocationSubmit(e) {
     e.preventDefault();
+
+    this.setState({
+      selectedSite: ''
+    }, this.setCSS)
+
     const location = document.querySelector('.location').value;
     let radius = document.querySelector('.radius').value;
 
@@ -112,32 +116,21 @@ class App extends React.Component {
   render() {
 
     let datePickerForm;
-    let sites = this.state.reducedSites;
 
     // refactor to hidden
     if (this.state.selectedSite !== '') {
-      datePickerForm =  <form onSubmit={this.handleFormSubmit}>
-        <input className="datetime" type="datetime-local" name="diveTime" />
-        <input type="submit" value="Schedule Dive" />
-      </form>
+      datePickerForm = <DatePickerForm data={this.handleFormSubmit} />
     }
 
     return (
       <div>
-        <form onSubmit={this.handleLocationSubmit}>
-          <label>
-            Location:
-            <input className="location" type="text" />
-          </label>
-          <label>
-            Radius:
-            <input className="radius" type="number" min="1" />
-          </label>
-          <input type="submit" value="Submit" />
-        </form>
-        <ul>
-          {sites}
-        </ul>
+        <LocationForm
+          data={this.handleLocationSubmit}
+        />
+        <ResultsList
+          data={this.state.reducedSites}
+          clickHandler={this.selectedSite}
+        />
         {datePickerForm}
       </div>
     );
