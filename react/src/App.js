@@ -87,7 +87,6 @@ class App extends React.Component {
     $.ajax({
       method: 'POST',
       url: '/dives',
-      // contentType: 'application/json',
       data: data
     })
   }
