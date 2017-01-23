@@ -2,11 +2,9 @@
   <ul>
     <% @dives.each do |dive| %>
       <li>
-        <h3>
-          <%= Divesite.where(id: dive.divesite_id)[0].name %>
+        <h3 class='active'>
+          <%= link_to Divesite.where(id: dive.divesite_id)[0].name, dive_path(dive) %>
         </h3>
-
-        <%= link_to Divesite.where(id: dive.divesite_id)[0].name, dive_path(dive) %>
 
         <p>Date: <%= dive.datetime %> </p>
         <p>Air Temperature: <%= dive.air_temp %> </p>

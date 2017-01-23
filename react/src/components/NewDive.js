@@ -3,7 +3,7 @@ import LocationForm from './LocationForm';
 import ResultsList from './ResultsList';
 import DatePickerForm from './DatePickerForm';
 
-class App extends React.Component {
+class NewDive extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -137,4 +137,4 @@ class App extends React.Component {
   }
 };
 
-export default App;
+export default NewDive;

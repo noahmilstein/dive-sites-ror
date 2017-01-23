@@ -12,7 +12,6 @@
 #     end
 #   end
 #
-#   # stop being a cunt, Kyle
 #   # def create
 #   #   @dive = Dive.new(new_dive_params)
 #   #   @dive.user = current_user

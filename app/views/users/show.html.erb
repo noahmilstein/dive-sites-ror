@@ -9,7 +9,7 @@
     <ul>
       <% @upcoming_dives.each do |dive| %>
         <li>
-          <%= link_to Divesite.where(id: dive.divesite_id)[0].name, dive_path(dive) %>
+          <%= link_to Divesite.where(id: dive.divesite_id)[0].name, dive_path(dive), class: 'active' %>
         </li>
       <% end %>
     </ul>
@@ -23,9 +23,10 @@
     <ul>
       <% @archived_dives.each do |dive| %>
         <li>
-          <%= link_to Divesite.where(id: dive.divesite_id)[0].name, dive_path(dive) %>
+          <%= link_to Divesite.where(id: dive.divesite_id)[0].name, dive_path(dive), class: 'archived' %>
         </li>
       <% end %>
     </ul>
   </div>
+  <%= link_to "Edit Profile", edit_user_path(current_user) %>
 </div>
