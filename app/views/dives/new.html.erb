@@ -1,22 +1,2 @@
-<div id="app">
-
-</div>
-
-<%= form_for(@dive) do |f| %>
-
-  <div class="field">
-    <%= f.label :divesite_id, "Site" %><br />
-    <%= f.collection_select :divesite_id, @divesites, :id, :name, :prompt => "Select a Site" %>
-  </div>
-
-  <div class="form-group row">
-    <%= f.label :datetime, "Date" %></br >
-    <%= f.datetime_field :datetime, value: Date.today.strftime("%m/%d/%Y %H:%M") %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Schedule Dive" %>
-  </div>
-
-<% end %>
+<div id="app"></div>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDaK7cIKeXTsbxflt-e3wCtqnCLht469bo&libraries=geometry"></script>
