@@ -1,12 +1,9 @@
-<div id="app"></div>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDaK7cIKeXTsbxflt-e3wCtqnCLht469bo&libraries=geometry"></script>
-
-<!-- <div>
+<div class="erb">
   <ul>
     <% @dives.each do |dive| %>
       <li>
         <h3 class='active'>
-          <%= link_to Divesite.where(id: dive.divesite_id)[0].name, dive_path(dive) %>
+          <%= link_to Divesite.where(id: dive.divesite_id).name, dive_path(dive) %>
         </h3>
 
         <p>Date: <%= dive.datetime %> </p>
@@ -20,4 +17,4 @@
       </li>
     <% end %>
   </ul>
-</div> -->
+</div>

@@ -3,6 +3,13 @@ class DivesController < ApplicationController
 
   def index
     @dives = Dive.where(user: current_user, archive: false)
+
+    dives_json = { 'dives': @dives, 'currentUser': current_user }
+
+    respond_to do |format|
+      format.json { render json: dives_json }
+      format.html
+    end
   end
 
   def new

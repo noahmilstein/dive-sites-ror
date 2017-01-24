@@ -7,16 +7,22 @@ class DivePage extends React.Component {
     this.state = {
       divesites: []
     };
+    this.setState = this.setState.bind(this);
+    this.getSites = this.getSites.bind(this);
   }
 
   componentDidMount() {
-    getSites()
+    this.getSites()
   }
 
   getSites() {
-    fetch('/api/v1/dives.json')
-      .then(response => response.json())
-      .then(data => this.setState({divesites: data}));
+    $.ajax({
+      url: '/',
+      contentType: 'application/json'
+    }).done(data => {
+      console.log(data)
+      this.setState({ divesites: data.dives });
+    });
   }
 
   render() {

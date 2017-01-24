@@ -9,14 +9,21 @@
   </head>
 
   <body>
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
-    <% if user_signed_in? %>
+    <div class="erb">
+      <p class="notice"><%= notice %></p>
+      <p class="alert"><%= alert %></p>
+      <% if user_signed_in? %>
       <%= link_to "Home", dives_path %> |
       <%= link_to "My Profile", user_path(current_user) %> |
       <%= link_to "Sign Out", destroy_user_session_path, method: :delete %> |
       <%= link_to "Schedule a Dive", new_dive_path %>
-    <% end %>
+      <% end %>
+    </div>
+
+    <div id="app"></div>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDaK7cIKeXTsbxflt-e3wCtqnCLht469bo&libraries=geometry"></script>
+
     <%= yield %>
+
   </body>
 </html>

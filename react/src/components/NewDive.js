@@ -17,9 +17,9 @@ class NewDive extends React.Component {
     };
     this.handleLocationSubmit = this.handleLocationSubmit.bind(this);
     this.setState = this.setState.bind(this);
+    this.setCSS = this.setCSS.bind(this);
     this.createSiteList = this.createSiteList.bind(this);
     this.convertToLatLng = this.convertToLatLng.bind(this);
-    this.setCSS = this.setCSS.bind(this);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
     this.selectedSite = this.selectedSite.bind(this);
   }
@@ -53,7 +53,6 @@ class NewDive extends React.Component {
       const siteCoordinates = this.convertToLatLng(parseFloat(site.latitude), parseFloat(site.longitude));
       return google.maps.geometry.spherical.computeDistanceBetween(centerPoint, siteCoordinates) <= parseFloat(radius * 1000);
     })
-
     this.setState({ reducedSites: sites })
   }
 
