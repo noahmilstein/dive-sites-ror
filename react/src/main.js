@@ -1,9 +1,10 @@
 import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import NavBar from './components/NavBar';
-import DivePage from './components/DivePage';
-import NewDive from './components/NewDive.js'
+import NavBar from './pages/navLayout/NavBar';
+import DivePage from './pages/homePage/DivePage';
+import NewDive from './pages/newDivePage/NewDive.js'
+import UserPage from './pages/userPage/UserPage.js'
 import { Router, Route, IndexRoute, browserHistory } from 'react-router'
 
 $(function() {
@@ -13,15 +14,13 @@ $(function() {
         <IndexRoute component={DivePage}/>
         <Route path='dives' component={DivePage}/>
         <Route path='dives/new' component={NewDive}/>
+        <Route path='users(/:id)' component={UserPage}/>
       </Route>
     </Router>,
     document.getElementById('app')
   )
 })
 
-// $(document).ready(function() {
-//   $('#erb').hide();
-// })
 $(document).ready(function() {
   $('.erb').hide();
 })

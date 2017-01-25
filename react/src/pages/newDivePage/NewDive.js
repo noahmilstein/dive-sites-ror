@@ -1,7 +1,8 @@
 import React from 'react';
-import LocationForm from './LocationForm';
-import ResultsList from './ResultsList';
-import DatePickerForm from './DatePickerForm';
+import LocationForm from './components/LocationForm';
+import ResultsList from './components/ResultsList';
+import DatePickerForm from './components/DatePickerForm';
+import { browserHistory } from 'react-router';
 
 class NewDive extends React.Component {
   constructor(props) {
@@ -112,13 +113,17 @@ class NewDive extends React.Component {
       });
   }
 
+  submitForm() {
+    browserHistory.push('/')
+  }
+
   render() {
 
     let datePickerForm;
 
     // refactor to hidden
     if (this.state.selectedSite !== '') {
-      datePickerForm = <DatePickerForm data={this.handleFormSubmit} />
+      datePickerForm = <DatePickerForm data={this.handleFormSubmit} clickHandler={this.submitForm}/>
     }
 
     return (

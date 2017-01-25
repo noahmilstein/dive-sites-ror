@@ -1,5 +1,5 @@
 import React from 'react';
-import DiveList from './DiveList';
+import DiveList from './components/DiveList';
 
 class DivePage extends React.Component {
   constructor(props) {
@@ -20,7 +20,6 @@ class DivePage extends React.Component {
       url: '/',
       contentType: 'application/json'
     }).done(data => {
-      console.log(data)
       this.setState({ divesites: data.dives });
     });
   }

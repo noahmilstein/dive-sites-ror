@@ -8,6 +8,12 @@ class UsersController < ApplicationController
     @archived_dives = []
     @upcoming_dives = []
 
+    dives_json = { 'archivedDives': @archived_dives, 'activeDives': @upcoming_dives }
+    respond_to do |format|
+      format.json { render json: dives_json }
+      format.html
+    end
+
     dives.each do |dive|
       if dive.archive
         @archived_dives << dive

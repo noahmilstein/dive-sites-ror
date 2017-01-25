@@ -16,9 +16,6 @@ class NavBar extends React.Component {
   }
 
   getUser() {
-    // fetch('/api/v1/user.json')
-    //   .then(response => response.json())
-    //   .then(data => this.setState({currentUser: data}))
     $.ajax({
       url: '/',
       contentType: 'application/json'
@@ -29,12 +26,13 @@ class NavBar extends React.Component {
   }
 
   render() {
+    // const url = `users/${this.state.currentUser.id}`
     let nav;
     if (this.state.currentUser !== null) {
       nav = <ul>
               <li><Link to={"/"}>Home</Link></li>
               <li>About</li>
-              <li><Link>My Profile</Link></li>
+              <li><Link to="/users">My Profile</Link></li>
               <li><a href="/users/sign_out">Sign Out</a></li>
               <li><Link to={"/dives/new"}>Schedule a Dive</Link></li>
             </ul>;
