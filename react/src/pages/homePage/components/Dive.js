@@ -2,28 +2,30 @@ import React from 'react';
 
 const Dive = (props) => {
   let dive;
-  if (props.airTemp != '') {
+
+  if (props.airTemp === null) {
     dive =  <ul>
-              <li>{props.datetime}</li>
+              <li className='dive'>{props.datetime}</li>
               Weather Report Pending
             </ul>;
   } else {
     dive =  <ul>
-              <li>{props.datetime}</li>
-              <li>{props.airTemp}</li>
-              <li>{props.waterTemp}</li>
-              <li>{props.waveHeight}</li>
-              <li>{props.windSpeed}</li>
-              <li>{props.windDirection}</li>
-              <li>{props.weatherDesc}</li>
-              <li>{props.precipitation}</li>
+              <li className='dive'>{props.datetime}</li>
+              <li className='dive'>{props.airTemp}</li>
+              <li className='dive'>{props.waterTemp}</li>
+              <li className='dive'>{props.waveHeight}</li>
+              <li className='dive'>{props.windSpeed}</li>
+              <li className='dive'>{props.windDirection}</li>
+              <li className='dive'>{props.weatherDesc}</li>
+              <li className='dive'>{props.precipitation}</li>
             </ul>
   }
 
   return (
-    <li className='dive' id={props.id}>
+    <div>
+      <h2>{props.name}</h2>
       {dive}
-    </li>
+    </div>
   )
 }
 

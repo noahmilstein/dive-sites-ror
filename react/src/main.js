@@ -14,7 +14,7 @@ $(function() {
         <IndexRoute component={DivePage}/>
         <Route path='dives' component={DivePage}/>
         <Route path='dives/new' component={NewDive}/>
-        <Route path='users(/:id)' component={UserPage}/>
+        <Route path='users' component={UserPage}/>
       </Route>
     </Router>,
     document.getElementById('app')

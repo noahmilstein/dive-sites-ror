@@ -77,6 +77,7 @@ class NewDive extends React.Component {
   handleFormSubmit(e) {
     // refactor into a fetch POST promise LATER
     e.preventDefault();
+
     const site = this.state.selectedSite
     const date = document.querySelector("input.datetime").value
     const data = {
@@ -118,12 +119,10 @@ class NewDive extends React.Component {
   }
 
   render() {
-
     let datePickerForm;
-
     // refactor to hidden
     if (this.state.selectedSite !== '') {
-      datePickerForm = <DatePickerForm data={this.handleFormSubmit} clickHandler={this.submitForm}/>
+      datePickerForm = <DatePickerForm data={this.handleFormSubmit}/>
     }
 
     return (

@@ -11,15 +11,10 @@ class UserPage extends React.Component {
     };
     this.setState = this.setState.bind(this)
     this.getUser = this.getUser.bind(this)
-    // this.getUserDives = this.getUserDives.bind(this)
   }
 
   componentDidMount() {
-    console.log('beginning of ajax call')
     this.getUser()
-    // this.getUserDives()
-    console.log('end of ajax call')
-    console.log(this.state.currentUser)
   }
 
   getUser() {
@@ -28,19 +23,18 @@ class UserPage extends React.Component {
       contentType: 'application/json'
     })
     .done(data => {
-      this.setState({ currentUser: data.currentUser });
+      this.setState({ currentUser: data.currentUser }, this.getUserDives);
     });
   }
 
-  // getUserDives() {
-  //   $.ajax({
-  //     url: `users/{this.state.currentUser.id}`,
-  //     contentType: 'application/json'
-  //   }).done(data => {
-  //     this.setState({ activeDives: data.activeDives, archivedDives: data.archivedDives })
-  //     debugger
-  //   });
-  // }
+  getUserDives() {
+    $.ajax({
+      url: `/users/${this.state.currentUser.id}`,
+      contentType: 'application/json'
+    }).done(data => {
+      this.setState({ activeDives: data.activeDives, archivedDives: data.archivedDives })
+    });
+  }
 
   render() {
     return (

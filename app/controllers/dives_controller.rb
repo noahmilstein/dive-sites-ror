@@ -4,7 +4,30 @@ class DivesController < ApplicationController
   def index
     @dives = Dive.where(user: current_user, archive: false)
 
-    dives_json = { 'dives': @dives, 'currentUser': current_user }
+    # @dives.each do |dive|
+    #   dive[:name] = dive.divesite.name
+    # end
+
+    updated_dives = []
+    @dives.each do |dive|
+      hash = {}
+      hash[:id] = dive.id
+      hash[:user_id] = dive.user_id
+      hash[:name] = dive.divesite.name
+      hash[:air_temp] = dive.air_temp
+      hash[:air_temp] = dive.air_temp
+      hash[:water_temp] = dive.water_temp
+      hash[:wave_height] = dive.wave_height
+      hash[:wind_speed] =  dive.wind_speed
+      hash[:wind_direction] =  dive.wind_direction
+      hash[:weather_description] =  dive.weather_description
+      hash[:precipitation] =  dive.precipitation
+      hash[:datetime] =  dive.datetime.strftime('%A, %B %e, %Y @ %l:%M %p')
+      hash[:archive] =  dive.archive
+      updated_dives << hash
+    end
+
+    dives_json = { 'dives': updated_dives, 'currentUser': current_user }
 
     respond_to do |format|
       format.json { render json: dives_json }

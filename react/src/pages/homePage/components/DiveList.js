@@ -7,6 +7,7 @@ const DiveList = (props) => {
       <Dive
         key={dive.id}
         id={dive.id}
+        name={dive.name}
         datetime={dive.datetime}
         airTemp={dive.air_temp}
         waterTemp={dive.water_temp}

@@ -26,7 +26,6 @@ class NavBar extends React.Component {
   }
 
   render() {
-    // const url = `users/${this.state.currentUser.id}`
     let nav;
     if (this.state.currentUser !== null) {
       nav = <ul>
