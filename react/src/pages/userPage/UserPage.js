@@ -20,8 +20,6 @@ class UserPage extends React.Component {
     // this.getUserDives()
     console.log('end of ajax call')
     console.log(this.state.currentUser)
-    console.log(this.props)
-    console.log(this.params)
   }
 
   getUser() {
