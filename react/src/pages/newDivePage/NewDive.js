@@ -3,6 +3,7 @@ import LocationForm from './components/LocationForm';
 import ResultsList from './components/ResultsList';
 import DatePickerForm from './components/DatePickerForm';
 import { browserHistory } from 'react-router';
+import GoogleMap from './components/GoogleMap';
 
 class NewDive extends React.Component {
   constructor(props) {
@@ -23,6 +24,7 @@ class NewDive extends React.Component {
     this.convertToLatLng = this.convertToLatLng.bind(this);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
     this.selectedSite = this.selectedSite.bind(this);
+
   }
 // use refs instead of query selector
 // use controlled components for forms
@@ -55,6 +57,36 @@ class NewDive extends React.Component {
       return google.maps.geometry.spherical.computeDistanceBetween(centerPoint, siteCoordinates) <= parseFloat(radius * 1000);
     })
     this.setState({ reducedSites: sites })
+
+    const map = document.querySelector('#map')
+    this.map = new google.maps.Map(map, {
+      center: { lat: this.state.lat, lng: this.state.lng },
+      zoom: 8
+    });
+
+    // let markers = this.state.reducedSites.map(function(site) {
+    //   return new google.maps.Marker({
+    //     position: {lat: site.latitude, lng: site.longitude},
+    //     map: map
+    //   });
+    // });
+
+    // markers.forEach(marker => marker.setMap(map))
+
+    // window.eqfeed_callback = function(sites) {
+    //   for (var i = 0; i < sites.length; i++) {
+    //     var latLng = new google.maps.LatLng(site.latitude,site.longitude);
+    //     var marker = new google.maps.Marker({
+    //       position: latLng,
+    //       map: map
+    //     });
+    //   }
+    // }
+
+
+    // Add a marker clusterer to manage the markers.
+    // let markerCluster = new MarkerClusterer(map, markers,
+    //     {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
   }
 
   selectedSite(e) {
@@ -119,12 +151,17 @@ class NewDive extends React.Component {
   }
 
   render() {
-    let datePickerForm;
-    // refactor to hidden
-    if (this.state.selectedSite !== '') {
-      datePickerForm = <DatePickerForm data={this.handleFormSubmit}/>
+    let googleMap;
+    if (this.state.radius !== null) {
+      googleMap = <GoogleMap
+                    lat={this.state.lat}
+                    lng={this.state.lng}
+                  />
+
     }
 
+    // instead use display:hidden; then toggle display
+    // use JS to transition div
     let queryOutput;
     if (this.state.radius !== null) {
       queryOutput = <div id="resultsList">
@@ -132,7 +169,14 @@ class NewDive extends React.Component {
           data={this.state.reducedSites}
           clickHandler={this.selectedSite}
         />
-      </div>
+      </div>;
+    }
+
+    // instead use display:hidden; then toggle display
+    // use JS to transition div
+    let datePickerForm;
+    if (this.state.selectedSite !== '') {
+      datePickerForm = <DatePickerForm data={this.handleFormSubmit}/>
     }
 
     return (
@@ -141,6 +185,7 @@ class NewDive extends React.Component {
           data={this.handleLocationSubmit}
         />
         {queryOutput}
+        {googleMap}
         {datePickerForm}
       </div>
     );
