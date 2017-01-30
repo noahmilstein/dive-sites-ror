@@ -1,9 +1,10 @@
 import React from 'react';
-import LocationForm from './LocationForm';
-import ResultsList from './ResultsList';
-import DatePickerForm from './DatePickerForm';
+import LocationForm from './components/LocationForm';
+import ResultsList from './components/ResultsList';
+import DatePickerForm from './components/DatePickerForm';
+import { browserHistory } from 'react-router';
 
-class App extends React.Component {
+class NewDive extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -17,9 +18,9 @@ class App extends React.Component {
     };
     this.handleLocationSubmit = this.handleLocationSubmit.bind(this);
     this.setState = this.setState.bind(this);
+    this.setCSS = this.setCSS.bind(this);
     this.createSiteList = this.createSiteList.bind(this);
     this.convertToLatLng = this.convertToLatLng.bind(this);
-    this.setCSS = this.setCSS.bind(this);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
     this.selectedSite = this.selectedSite.bind(this);
   }
@@ -53,7 +54,6 @@ class App extends React.Component {
       const siteCoordinates = this.convertToLatLng(parseFloat(site.latitude), parseFloat(site.longitude));
       return google.maps.geometry.spherical.computeDistanceBetween(centerPoint, siteCoordinates) <= parseFloat(radius * 1000);
     })
-
     this.setState({ reducedSites: sites })
   }
 
@@ -88,6 +88,7 @@ class App extends React.Component {
       url: '/dives',
       data: data
     })
+    browserHistory.push('/dives')
   }
 
   handleLocationSubmit(e) {
@@ -113,13 +114,15 @@ class App extends React.Component {
       });
   }
 
+  submitForm() {
+    browserHistory.push('/')
+  }
+
   render() {
-
     let datePickerForm;
-
     // refactor to hidden
     if (this.state.selectedSite !== '') {
-      datePickerForm = <DatePickerForm data={this.handleFormSubmit} />
+      datePickerForm = <DatePickerForm data={this.handleFormSubmit}/>
     }
 
     return (
@@ -137,4 +140,4 @@ class App extends React.Component {
   }
 };
 
-export default App;
+export default NewDive;
