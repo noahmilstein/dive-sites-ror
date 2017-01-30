@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   devise_for :users
 
   root "dives#index"
+  get '/users', to: 'users#show'
 
   resources :dives, only: [:index, :new, :create, :show]
   resources :users, only: [:edit, :show]
@@ -11,8 +12,6 @@ Rails.application.routes.draw do
       resources :divesites, only: [:index]
       resources :user, only: [:index]
       resources :userdives, only: [:index]
-
-      # resources :create_dives, only: [:create]
     end
   end
 end

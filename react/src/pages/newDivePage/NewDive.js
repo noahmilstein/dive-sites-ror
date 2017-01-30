@@ -77,7 +77,6 @@ class NewDive extends React.Component {
   handleFormSubmit(e) {
     // refactor into a fetch POST promise LATER
     e.preventDefault();
-
     const site = this.state.selectedSite
     const date = document.querySelector("input.datetime").value
     const data = {
@@ -89,6 +88,7 @@ class NewDive extends React.Component {
       url: '/dives',
       data: data
     })
+    browserHistory.push('/dives')
   }
 
   handleLocationSubmit(e) {
