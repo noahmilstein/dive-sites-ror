@@ -125,15 +125,22 @@ class NewDive extends React.Component {
       datePickerForm = <DatePickerForm data={this.handleFormSubmit}/>
     }
 
+    let queryOutput;
+    if (this.state.radius !== null) {
+      queryOutput = <div id="resultsList">
+        <ResultsList
+          data={this.state.reducedSites}
+          clickHandler={this.selectedSite}
+        />
+      </div>
+    }
+
     return (
       <div>
         <LocationForm
           data={this.handleLocationSubmit}
         />
-        <ResultsList
-          data={this.state.reducedSites}
-          clickHandler={this.selectedSite}
-        />
+        {queryOutput}
         {datePickerForm}
       </div>
     );
