@@ -11,3 +11,12 @@
 .active {
   color: green;
 }
+
+#resultsList {
+  width: 400px;
+  height: 400px;
+  background-color: Gray;
+  max-width: 400px;
+  max-height: 400px;
+  overflow-y: auto;
+}

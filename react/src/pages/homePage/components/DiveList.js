@@ -16,6 +16,7 @@ const DiveList = (props) => {
         windDirection={dive.wind_direction}
         weatherDesc={dive.weather_description}
         precipitation={dive.precipitation}
+        archived={dive.archive}
       />
     )
   })

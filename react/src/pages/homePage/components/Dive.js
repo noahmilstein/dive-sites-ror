@@ -21,9 +21,16 @@ const Dive = (props) => {
             </ul>
   }
 
+  let activeArchived;
+  if (props.archived) {
+    activeArchived = 'archived'
+  } else {
+    activeArchived = 'active'
+  }
+
   return (
     <div>
-      <h2>{props.name}</h2>
+      <h2 className={activeArchived}>{props.name}</h2>
       {dive}
     </div>
   )
