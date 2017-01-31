@@ -56,6 +56,7 @@ class NewDive extends React.Component {
       const siteCoordinates = this.convertToLatLng(parseFloat(site.latitude), parseFloat(site.longitude));
       return google.maps.geometry.spherical.computeDistanceBetween(centerPoint, siteCoordinates) <= parseFloat(radius * 1000);
     })
+
     this.setState({ reducedSites: sites })
 
     const map = document.querySelector('#map')
@@ -63,14 +64,36 @@ class NewDive extends React.Component {
       center: { lat: this.state.lat, lng: this.state.lng },
       zoom: 8
     });
+    const _this = this
+    let markers = sites.map(function(site) {
+      return new google.maps.Marker({
+        position: {lat: parseInt(site.latitude), lng: parseInt(site.longitude)},
+        setMap: _this.map
+      });
+    });
 
-    // let markers = this.state.reducedSites.map(function(site) {
-    //   return new google.maps.Marker({
-    //     position: {lat: site.latitude, lng: site.longitude},
-    //     map: map
+    markers.forEach(marker => marker.setMap(_this.map))
+  }
+    // Oh! It's because you do setMap(map) and map refers to the element.
+    // I think you mean setMap(this.map).
+    // and also where you return google.maps.Marker({ setMap:this.map})
+
+
+    // this.setState({ reducedSites: sites }, () => {
+    //
+    //   const map = document.querySelector('#map')
+    //   this.map = new google.maps.Map(map, {
+    //     center: { lat: this.state.lat, lng: this.state.lng },
+    //     zoom: 8
     //   });
-    // });
-
+    //
+    //   let markers = this.state.reducedSites.map(function(site) {
+    //     return new google.maps.Marker({
+    //       position: {lat: site.latitude, lng: site.longitude},
+    //       map: map
+    //     });
+    //   });
+    // })
     // markers.forEach(marker => marker.setMap(map))
 
     // window.eqfeed_callback = function(sites) {
@@ -83,11 +106,10 @@ class NewDive extends React.Component {
     //   }
     // }
 
-
     // Add a marker clusterer to manage the markers.
     // let markerCluster = new MarkerClusterer(map, markers,
     //     {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
-  }
+  // }
 
   selectedSite(e) {
     e.preventDefault()
