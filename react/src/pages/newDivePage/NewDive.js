@@ -74,10 +74,6 @@ class NewDive extends React.Component {
 
     markers.forEach(marker => marker.setMap(_this.map))
   }
-    // Oh! It's because you do setMap(map) and map refers to the element.
-    // I think you mean setMap(this.map).
-    // and also where you return google.maps.Marker({ setMap:this.map})
-
 
     // this.setState({ reducedSites: sites }, () => {
     //
