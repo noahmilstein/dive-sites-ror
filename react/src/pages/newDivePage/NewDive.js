@@ -57,55 +57,10 @@ class NewDive extends React.Component {
       return google.maps.geometry.spherical.computeDistanceBetween(centerPoint, siteCoordinates) <= parseFloat(radius * 1000);
     })
 
-    this.setState({ reducedSites: sites })
-
-    const map = document.querySelector('#map')
-    this.map = new google.maps.Map(map, {
-      center: { lat: this.state.lat, lng: this.state.lng },
-      zoom: 8
-    });
-    const _this = this
-    let markers = sites.map(function(site) {
-      return new google.maps.Marker({
-        position: {lat: parseInt(site.latitude), lng: parseInt(site.longitude)},
-        setMap: _this.map
-      });
-    });
-
-    markers.forEach(marker => marker.setMap(_this.map))
+    this.setState({ reducedSites: sites }, () => {
+      this.renderMap()
+    })
   }
-
-    // this.setState({ reducedSites: sites }, () => {
-    //
-    //   const map = document.querySelector('#map')
-    //   this.map = new google.maps.Map(map, {
-    //     center: { lat: this.state.lat, lng: this.state.lng },
-    //     zoom: 8
-    //   });
-    //
-    //   let markers = this.state.reducedSites.map(function(site) {
-    //     return new google.maps.Marker({
-    //       position: {lat: site.latitude, lng: site.longitude},
-    //       map: map
-    //     });
-    //   });
-    // })
-    // markers.forEach(marker => marker.setMap(map))
-
-    // window.eqfeed_callback = function(sites) {
-    //   for (var i = 0; i < sites.length; i++) {
-    //     var latLng = new google.maps.LatLng(site.latitude,site.longitude);
-    //     var marker = new google.maps.Marker({
-    //       position: latLng,
-    //       map: map
-    //     });
-    //   }
-    // }
-
-    // Add a marker clusterer to manage the markers.
-    // let markerCluster = new MarkerClusterer(map, markers,
-    //     {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
-  // }
 
   selectedSite(e) {
     e.preventDefault()
@@ -168,16 +123,24 @@ class NewDive extends React.Component {
     browserHistory.push('/')
   }
 
+  renderMap() {
+    const map = document.querySelector('#map')
+    this.map = new google.maps.Map(map, {
+      center: { lat: this.state.lat, lng: this.state.lng },
+      zoom: 8
+    });
+    const _this = this
+    // why aren't all the markers showing?
+    let markers = this.state.reducedSites.map(function(site) {
+      return new google.maps.Marker({
+        position: {lat: parseInt(site.latitude), lng: parseInt(site.longitude)},
+        map: _this.map
+      });
+    });
+    // markers.forEach(marker => marker.setMap(_this.map))
+  }
+
   render() {
-    let googleMap;
-    if (this.state.radius !== null) {
-      googleMap = <GoogleMap
-                    lat={this.state.lat}
-                    lng={this.state.lng}
-                  />
-
-    }
-
     // instead use display:hidden; then toggle display
     // use JS to transition div
     let queryOutput;
@@ -203,7 +166,9 @@ class NewDive extends React.Component {
           data={this.handleLocationSubmit}
         />
         {queryOutput}
-        {googleMap}
+        <GoogleMap
+          radius={this.state.radius}
+        />
         {datePickerForm}
       </div>
     );
