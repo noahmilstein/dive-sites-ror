@@ -1,5 +1,9 @@
 // @import "*";
 
+.erb {
+  display: none;
+}
+
 .selectedSite {
   color: red;
 }
@@ -15,8 +19,13 @@
 #resultsList {
   width: 400px;
   height: 400px;
-  background-color: Gray;
+  border: solid black;
   max-width: 400px;
   max-height: 400px;
   overflow-y: auto;
+}
+
+#map {
+ height: 400px;
+ width: 100%;
 }

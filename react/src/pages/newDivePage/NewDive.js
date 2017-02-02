@@ -3,6 +3,7 @@ import LocationForm from './components/LocationForm';
 import ResultsList from './components/ResultsList';
 import DatePickerForm from './components/DatePickerForm';
 import { browserHistory } from 'react-router';
+import GoogleMap from './components/GoogleMap';
 
 class NewDive extends React.Component {
   constructor(props) {
@@ -23,6 +24,7 @@ class NewDive extends React.Component {
     this.convertToLatLng = this.convertToLatLng.bind(this);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
     this.selectedSite = this.selectedSite.bind(this);
+
   }
 // use refs instead of query selector
 // use controlled components for forms
@@ -54,7 +56,10 @@ class NewDive extends React.Component {
       const siteCoordinates = this.convertToLatLng(parseFloat(site.latitude), parseFloat(site.longitude));
       return google.maps.geometry.spherical.computeDistanceBetween(centerPoint, siteCoordinates) <= parseFloat(radius * 1000);
     })
-    this.setState({ reducedSites: sites })
+
+    this.setState({ reducedSites: sites }, () => {
+      this.renderMap()
+    })
   }
 
   selectedSite(e) {
@@ -118,13 +123,26 @@ class NewDive extends React.Component {
     browserHistory.push('/')
   }
 
-  render() {
-    let datePickerForm;
-    // refactor to hidden
-    if (this.state.selectedSite !== '') {
-      datePickerForm = <DatePickerForm data={this.handleFormSubmit}/>
-    }
+  renderMap() {
+    const map = document.querySelector('#map')
+    this.map = new google.maps.Map(map, {
+      center: { lat: this.state.lat, lng: this.state.lng },
+      zoom: 8
+    });
+    const _this = this
+    // why aren't all the markers showing?
+    let markers = this.state.reducedSites.map(function(site) {
+      return new google.maps.Marker({
+        position: {lat: parseFloat(site.latitude, 10), lng: parseFloat(site.longitude, 10)},
+        map: _this.map
+      });
+    });
+    // markers.forEach(marker => marker.setMap(_this.map))
+  }
 
+  render() {
+    // instead use display:hidden; then toggle display
+    // use JS to transition div
     let queryOutput;
     if (this.state.radius !== null) {
       queryOutput = <div id="resultsList">
@@ -132,7 +150,14 @@ class NewDive extends React.Component {
           data={this.state.reducedSites}
           clickHandler={this.selectedSite}
         />
-      </div>
+      </div>;
+    }
+
+    // instead use display:hidden; then toggle display
+    // use JS to transition div
+    let datePickerForm;
+    if (this.state.selectedSite !== '') {
+      datePickerForm = <DatePickerForm data={this.handleFormSubmit}/>
     }
 
     return (
@@ -141,6 +166,9 @@ class NewDive extends React.Component {
           data={this.handleLocationSubmit}
         />
         {queryOutput}
+        <GoogleMap
+          radius={this.state.radius}
+        />
         {datePickerForm}
       </div>
     );
