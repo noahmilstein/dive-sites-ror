@@ -133,7 +133,7 @@ class NewDive extends React.Component {
     // why aren't all the markers showing?
     let markers = this.state.reducedSites.map(function(site) {
       return new google.maps.Marker({
-        position: {lat: parseInt(site.latitude), lng: parseInt(site.longitude)},
+        position: {lat: parseFloat(site.latitude, 10), lng: parseFloat(site.longitude, 10)},
         map: _this.map
       });
     });
