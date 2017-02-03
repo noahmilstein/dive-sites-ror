@@ -51,7 +51,7 @@ class DivesController < ApplicationController
 
     datetime_with_offset = datetime.change(offset: offset_in_hours.to_s)
 
-    @dive = Dive.new(divesite_id: divesite_id, user_id: user_id, datetime: datetime)
+    @dive = Dive.new(divesite_id: divesite_id, user_id: user_id, datetime: datetime_with_offset)
 
     if @dive.save
       flash[:notice] = 'Dive scheduled successfully!'
