@@ -45,6 +45,12 @@ class DivesController < ApplicationController
     divesite_id = Divesite.where(name: params[:site])[0].id
     datetime = params[:date].to_datetime
 
+    response = HTTParty.get("https://maps.googleapis.com/maps/api/timezone/json?location=38.908133,-77.047119&timestamp=1458000000&key=#{ENV['GOOGLE_TIME_ZONE_API_KEY']}")
+
+    offset_in_hours = response['rawOffset'] / 3600
+
+    datetime_with_offset = datetime.change(offset: offset_in_hours.to_s)
+
     @dive = Dive.new(divesite_id: divesite_id, user_id: user_id, datetime: datetime)
 
     if @dive.save
